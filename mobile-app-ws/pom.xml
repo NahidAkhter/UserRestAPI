@@ -10,7 +10,7 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.mobile.rest.app</groupId>
-	<artifactId>mobile-app-rest-ws</artifactId>
+	<artifactId>mobile-app-ws</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>mobile-app-rest-ws</name>
