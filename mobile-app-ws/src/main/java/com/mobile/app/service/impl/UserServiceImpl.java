@@ -8,40 +8,37 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import com.mobile.app.dto.UserDto;
 import com.mobile.app.entity.UserEntity;
-import com.mobile.app.exceptions.UserServiceException;
 import com.mobile.app.repo.UserRepository;
-import com.mobile.app.response.model.ErrorMessages;
 import com.mobile.app.service.UserService;
-import com.mobile.app.shared.Utils;
+import com.mobile.app.shared.ErrorMessages;
 
+@Service
 public class UserServiceImpl implements UserService {
 
 	@Autowired
 	UserRepository userRepository;
-
-	@Autowired
-	Utils utils;
-
-	@Autowired
-	BCryptPasswordEncoder byCryptPasswordEncoder;
-
-
+		
+	@Override
+	public UserDto getUser(String email) {
+		UserDto returnValued = new UserDto();
+		
+		if(userRepository.findByEmail(email) == null) throw new RuntimeException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage());	
+		
+			UserEntity userEntity = userRepository.findByEmail(email);			
+			BeanUtils.copyProperties(userEntity, returnValued);
+		
+		return returnValued;
+	}
+	
 	@Override
 	public UserDto createUser(UserDto user) {
-
 		if(userRepository.findByEmail(user.getEmail())!=null) throw new RuntimeException("Record already exits!");
 		UserEntity userEntity = new UserEntity();
 		BeanUtils.copyProperties(user, userEntity);
-
-		userEntity.setUserId(utils.generatedUserId(30));
-		userEntity.setEncryptedPassword(byCryptPasswordEncoder.encode(user.getPassword()));
 
 		UserEntity storeUserEntity = userRepository.save(userEntity);
 
@@ -52,85 +49,41 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+	public UserDto updateUser(String email, UserDto userDto) {
+		UserDto returnValued = new UserDto();
 		UserEntity userEntity = userRepository.findByEmail(email);
+		
+		userEntity.setFirstName(userDto.getFirstName());
+		userEntity.setLastName(userDto.getLastName());
 
-		if(userEntity == null) throw 
-		new UsernameNotFoundException(email + "not found in our record");
-
-		return new User(userEntity.getEmail(),
-				userEntity.getEncryptedPassword(),
-				new ArrayList<>());
+		UserEntity updateUserDetails = userRepository.save(userEntity);
+		BeanUtils.copyProperties(updateUserDetails, returnValued);
+		return returnValued;
 	}
-
+	
 	@Override
-	public UserDto getUser(String email) {
+	public void deleteUser(String email) {
 		UserEntity userEntity = userRepository.findByEmail(email);
-
-		if(userEntity == null) throw new UsernameNotFoundException(email + "Not found in our record");
-
-		UserDto returnValue = new UserDto();
-		BeanUtils.copyProperties(userEntity, returnValue);
-
-		return returnValue;
-	}
-
-	@Override
-	public UserDto getUserByUserId(String userId) {
-		UserEntity userEntity = userRepository.findByEmail(userId);
-
-		if(userEntity == null) throw new UsernameNotFoundException(userId + "Not found in our record");
-
-		UserDto returnValue = new UserDto();
-		BeanUtils.copyProperties(userEntity, returnValue);
-
-		return returnValue;
-	}
-
-	@Override
-	public UserDto updateUser(String userId, UserDto user) {
-		UserDto returnvalue = new UserDto();
-		UserEntity userEntity = userRepository.findByUserId(userId);
-
-		if(userEntity == null) throw new UsernameNotFoundException(userId + "Not found in our record");
-
-		userEntity.setFirstName(user.getFirstName());
-		userEntity.setLastName(user.getLastName());
-
-		UserEntity updatedUserDetails = userRepository.save(userEntity);
-		BeanUtils.copyProperties(updatedUserDetails, returnvalue);
-
-
-		return returnvalue;
-	}
-
-	@Override
-	public void deleteUser(String userId) {
-		UserEntity userEntity = userRepository.findByUserId(userId);
-
-		if(userEntity == null) throw new UserServiceException(ErrorMessages.NO_RECORD_FOUND.getErrorMesage());
-
 		userRepository.delete(userEntity);
 
 	}
 
 	@Override
 	public List<UserDto> getUsers(int page, int limit) {
-
-		List<UserDto> returnValue = new  ArrayList<>();
-
-		if(page > 0) page = page -1;
-
-		Pageable pageableRequest = PageRequest.of(page, limit);
-
-		Page<UserEntity> usersPage = userRepository.findAll(pageableRequest);
+		
+		List<UserDto> returnValue = new ArrayList<>();
+		Pageable pageRequest = PageRequest.of(page, limit);
+		
+		Page<UserEntity> usersPage = userRepository.findAll(pageRequest);
 		List<UserEntity> users = usersPage.getContent();
-
+		
+		
 		for(UserEntity userEntity : users) {
 			UserDto userDto = new UserDto();
 			BeanUtils.copyProperties(userEntity, userDto);
 			returnValue.add(userDto);
 		}
+		
 		return returnValue;
 	}
 }

@@ -5,7 +5,7 @@ public class UserDetailsRequestModel {
 	private String id;
 	private String firstName;
 	private String lastName;
-	private String emailAddress;
+	private String email;
 	
 	public String getId() {
 		return id;
@@ -25,10 +25,10 @@ public class UserDetailsRequestModel {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	public String getEmailAddress() {
-		return emailAddress;
+	public String getEmail() {
+		return email;
 	}
-	public void setEmailAddress(String emailAddress) {
-		this.emailAddress = emailAddress;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 }

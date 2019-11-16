@@ -2,17 +2,13 @@ package com.mobile.app.service;
 
 import java.util.List;
 
-import org.springframework.security.core.userdetails.UserDetailsService;
-
 import com.mobile.app.dto.UserDto;
 
-public interface UserService extends UserDetailsService {
+public interface UserService {
 	
-	UserDto createUser(UserDto user);
 	UserDto getUser(String email);
-	UserDto getUserByUserId(String userId);
-	UserDto updateUser(String userId, UserDto user);
-	void deleteUser(String userId);
+	UserDto createUser(UserDto user);
+	UserDto updateUser(String email, UserDto userDto);
+	void deleteUser(String email);
 	List<UserDto> getUsers(int page, int limit);
-	
 }

@@ -1,11 +1,12 @@
 package com.mobile.app.response.model;
 
 public class UserDetailsResponseModel {
-	
+		
 	private String userId;
 	private String email;
 	private String firstName;
 	private String lastName;
+	
 	
 	public String getUserId() {
 		return userId;

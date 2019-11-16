@@ -11,13 +11,10 @@ import javax.persistence.Id;
 public class UserEntity implements Serializable{
 
 	private static final long serialVersionUID = 5272219419688772512L;
-	
+
 	@Id
 	@GeneratedValue
 	private long id;
-	
-	@Column(nullable=false)
-	private String userId;
 	
 	@Column(nullable=false, length=50)
 	private String firstName;
@@ -27,14 +24,6 @@ public class UserEntity implements Serializable{
 	
 	@Column(nullable=false, length=120)
 	private String email;
-	
-	@Column(nullable=false)
-	private String encryptedPassword;
-	
-	private String emailVerificationToken;
-	
-	@Column(nullable=false, length=50)
-	private Boolean emailVerificationStatus = false;
 
 	public long getId() {
 		return id;
@@ -42,14 +31,6 @@ public class UserEntity implements Serializable{
 
 	public void setId(long id) {
 		this.id = id;
-	}
-
-	public String getUserId() {
-		return userId;
-	}
-
-	public void setUserId(String userId) {
-		this.userId = userId;
 	}
 
 	public String getFirstName() {
@@ -75,33 +56,4 @@ public class UserEntity implements Serializable{
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
-	public String getEncryptedPassword() {
-		return encryptedPassword;
-	}
-
-	public void setEncryptedPassword(String encryptedPassword) {
-		this.encryptedPassword = encryptedPassword;
-	}
-
-	public String getEmailVerificationToken() {
-		return emailVerificationToken;
-	}
-
-	public void setEmailVerificationToken(String emailVerificationToken) {
-		this.emailVerificationToken = emailVerificationToken;
-	}
-
-	public Boolean getEmailVerificationStatus() {
-		return emailVerificationStatus;
-	}
-
-	public void setEmailVerificationStatus(Boolean emailVerificationStatus) {
-		this.emailVerificationStatus = emailVerificationStatus;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-	
 }
