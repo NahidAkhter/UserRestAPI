@@ -1,24 +1,20 @@
 # UserRestAPI
 
-A RESTful API for user management built with Node.js and Express. This project provides a simple, extensible foundation for handling common user operations such as registration, authentication, profile management, and CRUD operations.
+A RESTful API project for user management, implemented in Java. This repository provides the backend foundation for handling typical user-related operations such as registration, authentication, profile management, and CRUD actions, suitable for integration with mobile or web applications.
 
 ## Features
 
-- User Registration (sign-up)
-- User Authentication (login/logout)
-- Retrieve all users
-- Get individual user profiles
-- Update and delete user records
-- JSON-based RESTful endpoints
-- Password hashing for security
+- User registration and login/logout
+- User profile retrieval and update
+- Delete user
+- Secure password storage
+- JSON-based REST API endpoints
 
 ## Tech Stack
 
-- **Runtime:** Node.js
-- **Framework:** Express.js
-- **Database:** (Customizable, e.g., MongoDB, PostgreSQL, SQLite, or In-Memory)
-- **Authentication:** JWT (JSON Web Tokens) or similar libraries
-- **Password Security:** bcrypt or argon2
+- **Language:** Java
+- **Framework:** (Please refer to project source, e.g., Spring Boot or Jakarta EE, as applicable)
+- **Project Structure:** The service implementation is located in the `mobile-app-ws` directory.
 
 ## Installation
 
@@ -27,73 +23,46 @@ A RESTful API for user management built with Node.js and Express. This project p
     git clone https://github.com/NahidAkhter/UserRestAPI.git
     cd UserRestAPI
     ```
-2. **Install dependencies:**
+2. **Navigate to the project directory:**
     ```bash
-    npm install
+    cd mobile-app-ws
     ```
-3. **Configure environment variables:**
-    - Create a `.env` file and add the necessary configuration (database URL, JWT secret, etc.).
+3. **Build the project** (using Maven or Gradle as configured):
+    - For Maven:
+      ```bash
+      mvn clean install
+      ```
+    - For Gradle:
+      ```bash
+      gradle build
+      ```
+4. **Run the application:**
+    - For Maven:
+      ```bash
+      mvn spring-boot:run
+      ```
+    - For Gradle:
+      ```bash
+      gradle bootRun
+      ```
+    - Or use your preferred Java IDE.
 
-4. **Start the server:**
-    ```bash
-    npm run start
-    ```
+## Example Endpoints
 
-   The API will be accessible at `http://localhost:3000` by default.
+| Method | Endpoint            | Description          |
+| ------ | ------------------- | -------------------- |
+| POST   | `/users/register`   | Register new user    |
+| POST   | `/users/login`      | Authenticate user    |
+| GET    | `/users`            | List all users       |
+| GET    | `/users/{id}`       | Get specific user    |
+| PUT    | `/users/{id}`       | Update user details  |
+| DELETE | `/users/{id}`       | Delete a user        |
 
-## Example API Endpoints
-
-| Method | Endpoint              | Description            | Auth Required |
-|--------|-----------------------|------------------------|--------------|
-| POST   | `/api/register`       | Register new user      | No           |
-| POST   | `/api/login`          | User login             | No           |
-| GET    | `/api/users`          | List all users         | Yes          |
-| GET    | `/api/users/:id`      | Get user by ID         | Yes          |
-| PUT    | `/api/users/:id`      | Update user            | Yes          |
-| DELETE | `/api/users/:id`      | Delete user            | Yes          |
-
-## Usage
-
-Use tools like [Postman](https://www.postman.com/) or [curl](https://curl.se/) to interact with the API.
-
-### Register a User
-
-```http
-POST /api/register
-Content-Type: application/json
-
-{
-  "username": "jane_doe",
-  "email": "jane@example.com",
-  "password": "securepassword"
-}
-```
-
-### Login
-
-```http
-POST /api/login
-Content-Type: application/json
-
-{
-  "email": "jane@example.com",
-  "password": "securepassword"
-}
-```
-
-Returns a JWT token on success.
-
-### Authenticated Requests
-
-For routes that require authentication, add:
-
-```
-Authorization: Bearer YOUR_JWT_TOKEN
-```
+> **Note:** Actual endpoint paths may vary. Please refer to code or in-app documentation.
 
 ## Contributing
 
-Contributions are welcome! Please open issues or pull requests to suggest features, report bugs, or improve documentation.
+Contributions are welcome! Please open an issue or pull request to suggest changes or report problems.
 
 ## License
 
